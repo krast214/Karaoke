@@ -300,10 +300,7 @@ const KaraokeGameShow = () => {
       </>
     );
 
-        default:
-          return <div>Game not found</div>;
-      }
-    };
+// ...existing code...
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-500 via-blue-500 to-purple-600 p-6">
@@ -410,4 +407,5 @@ const KaraokeGameShow = () => {
   return ScreenComponent;
 // ...existing code...
 
+}
 export default KaraokeGameShow;
