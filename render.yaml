@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: karaoke-gameshow
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npx serve -s build -l 10000
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
