@@ -243,60 +243,62 @@ const KaraokeGameShow = () => {
     const [teamName, setTeamName] = useState('');
 
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
-              🎤 KARAOKE GAME SHOW 🎤
-            </h1>
-            <p className="text-xl text-white/90">Register your teams and get ready to rock!</p>
-            
-            {/* Sound Toggle */}
-            <button
-              onClick={() => setSoundEnabled(!soundEnabled)}
-              className="mt-4 bg-white/20 text-white px-4 py-2 rounded-xl hover:bg-white/30 transition-all"
-            >
-              {soundEnabled ? <Volume2 className="inline mr-2" /> : <VolumeX className="inline mr-2" />}
-              Sound {soundEnabled ? 'ON' : 'OFF'}
-            </button>
-          </div>
-
-          <div className="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-2xl mb-6">
-            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Team Registration</h2>
-            
-            <div className="flex gap-4 mb-6">
-              <input
-                type="text"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-                placeholder="Enter team name..."
-                className="flex-1 px-4 py-3 rounded-xl border-2 border-purple-300 focus:border-purple-500 text-lg"
-                onKeyPress={(e) => e.key === 'Enter' && teamName && (addTeam(teamName), setTeamName(''))}
-              />
+      <>
+        <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="text-6xl font-bold text-white mb-4 drop-shadow-lg">
+                🎤 KARAOKE GAME SHOW 🎤
+              </h1>
+              <p className="text-xl text-white/90">Register your teams and get ready to rock!</p>
+              {/* Sound Toggle */}
               <button
-                onClick={() => teamName && (addTeam(teamName), setTeamName(''), playButtonSound())}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+                onClick={() => setSoundEnabled(!soundEnabled)}
+                className="mt-4 bg-white/20 text-white px-4 py-2 rounded-xl hover:bg-white/30 transition-all"
               >
-                Add Team
+                {soundEnabled ? <Volume2 className="inline mr-2" /> : <VolumeX className="inline mr-2" />}
+                Sound {soundEnabled ? 'ON' : 'OFF'}
               </button>
             </div>
-
-            {teams.length > 0 && (
+            <div className="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-2xl mb-6">
+              <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Team Registration</h2>
+              <div className="flex gap-4 mb-6">
+                <input
+                  type="text"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  placeholder="Enter team name..."
+                  className="flex-1 px-4 py-3 rounded-xl border-2 border-purple-300 focus:border-purple-500 text-lg"
+                  onKeyPress={(e) => e.key === 'Enter' && teamName && (addTeam(teamName), setTeamName(''))}
+                />
+                <button
+                  onClick={() => teamName && (addTeam(teamName), setTeamName(''), playButtonSound())}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105"
+                >
+                  Add Team
+                </button>
+              </div>
+              {/* Add any additional TeamRegistration content here */}
+            </div>
+            {teams.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 {teams.map(team => (
                   <div key={team.id} className="bg-gradient-to-r from-blue-400 to-purple-500 text-white p-4 rounded-xl flex justify-between items-center">
                     <span className="font-bold text-lg">{team.name}</span>
                     <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Score: {team.score}</span>
                   </div>
-                ) : (
-                  <div className="bg-white/30 p-6 rounded-2xl">
-                    <h3 className="text-3xl font-bold mb-2">"{currentSongNTT.title}"</h3>
-                    <p className="text-xl text-white/90">by {currentSongNTT.artist}</p>
-                  </div>
-                )}
+                ))}
               </div>
-            </div>
-          );
+            ) : (
+              <div className="bg-white/30 p-6 rounded-2xl">
+                <h3 className="text-3xl font-bold mb-2">"{currentSongNTT.title}"</h3>
+                <p className="text-xl text-white/90">by {currentSongNTT.artist}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </>
+    );
 
         default:
           return <div>Game not found</div>;
@@ -388,18 +390,24 @@ const KaraokeGameShow = () => {
   };
 
   // Main render logic
+  let ScreenComponent;
   switch(currentScreen) {
     case 'teams':
-      return <TeamRegistration />;
+      ScreenComponent = <TeamRegistration />;
+      break;
     case 'gameSelect':
-      return <GameSelection />;
+      ScreenComponent = <GameSelection />;
+      break;
     case 'leaderboard':
-      return <Leaderboard />;
+      ScreenComponent = <Leaderboard />;
+      break;
     case 'game':
-      return <GameScreen />;
+      ScreenComponent = <GameScreen />;
+      break;
     default:
-      return <TeamRegistration />;
+      ScreenComponent = <TeamRegistration />;
   }
-};
+  return ScreenComponent;
+// ...existing code...
 
 export default KaraokeGameShow;
